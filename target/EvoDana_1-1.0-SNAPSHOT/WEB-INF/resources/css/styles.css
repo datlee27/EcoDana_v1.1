@@ -1,0 +1,128 @@
+/* src/main/webapp/resources/css/styles.css */
+
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f7fafc;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+    font-weight: 600;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Navigation */
+nav {
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 50;
+}
+
+.nav-link {
+    padding: 0.5rem 1rem;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #4CAF50;
+}
+
+/* Login Page */
+.login-container {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #4CAF50, #2196F3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 4rem;
+}
+
+.login-container .form-box {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 28rem;
+    width: 100%;
+    text-align: center;
+}
+
+.login-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #4CAF50;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.login-container input:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    outline: none;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 0.75rem;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.login-container .error {
+    background-color: #fef2f2;
+    border: 1px solid #f87171;
+    color: #dc2626;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    display: none;
+}
+
+/* Common Buttons and Links */
+.bg-primary {
+    background-color: #4CAF50;
+}
+
+.bg-secondary {
+    background-color: #2196F3;
+}
+
+.bg-accent {
+    background-color: #81C784;
+}
+
+.text-primary {
+    color: #4CAF50;
+}
+
+.text-secondary {
+    color: #2196F3;
+}
+
+.hover\:bg-accent:hover {
+    background-color: #81C784;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+a:hover {
+    text-decoration: underline;
+}

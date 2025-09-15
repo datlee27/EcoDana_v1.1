@@ -1,0 +1,11 @@
+Controller/HomePageServlet.class
+Controller/RegisterServlet.class
+com/java/evodana_1/JakartaRestConfiguration.class
+Controller/DashboardServlet.class
+Controller/RenterServlet.class
+Controller/LoginServlet$User.class
+Controller/LogoutServlet.class
+Model/User.class
+com/java/evodana_1/resources/JakartaEE10Resource.class
+Controller/AdminServlet.class
+Controller/LoginServlet.class
