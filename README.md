@@ -10,6 +10,15 @@ cd EcoDana_v1.1
 
 ---
 
+Nếu bạn chỉ muốn <nhanh'> giống hệt main
+```bash
+git checkout <ten_nhanh>
+git reset --hard main
+git push origin <ten_nhanh> --force
+
+```
+
+---
 ## 2️⃣ Checkout sang nhánh của mình
 👉 Mỗi người có **nhánh riêng** để code (do lead tạo sẵn).  
 - Ky:
