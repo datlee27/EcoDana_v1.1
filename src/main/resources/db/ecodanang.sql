@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.42, for macos15 (x86_64)
 --
--- Host: localhost    Database: evodana
+-- Host: localhost    Database: ecodana
 -- ------------------------------------------------------
 -- Server version	8.0.42
 
@@ -82,7 +82,7 @@ CREATE TABLE `Booking` (
   `CustomerPhone` varchar(15) DEFAULT NULL,
   `CustomerAddress` varchar(255) DEFAULT NULL,
   `CustomerEmail` varchar(100) DEFAULT NULL,
-  `DriverLicenseImageUrl` varchar(500) DEFAULT NULL,
+  -- ĐÃ LOẠI BỎ: DriverLicenseImageUrl varchar(500) DEFAULT NULL,
   `TermsAgreed` tinyint(1) NOT NULL DEFAULT '0',
   `TermsAgreedAt` datetime DEFAULT NULL,
   `TermsVersion` varchar(10) DEFAULT 'v1.0',
@@ -93,6 +93,7 @@ CREATE TABLE `Booking` (
   KEY `HandledBy` (`HandledBy`),
   KEY `DiscountId` (`DiscountId`),
   KEY `idx_booking_code` (`BookingCode`),
+  KEY `idx_booking_dates` (`PickupDateTime`, `ReturnDateTime`), -- THÊM INDEX MỚI
   CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `Users` (`UserId`) ON DELETE CASCADE,
   CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`VehicleId`) REFERENCES `Vehicle` (`VehicleId`),
   CONSTRAINT `booking_ibfk_3` FOREIGN KEY (`HandledBy`) REFERENCES `Users` (`UserId`),
@@ -100,7 +101,7 @@ CREATE TABLE `Booking` (
   CONSTRAINT `CHK_Booking_Amount` CHECK ((`TotalAmount` >= 0)),
   CONSTRAINT `CHK_Booking_RentalType` CHECK ((`RentalType` in (_utf8mb4'hourly',_utf8mb4'daily',_utf8mb4'monthly')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `BookingApproval`
@@ -251,10 +252,11 @@ CREATE TABLE `Contract` (
   UNIQUE KEY `ContractCode` (`ContractCode`),
   KEY `UserId` (`UserId`),
   KEY `BookingId` (`BookingId`),
+  KEY `idx_contract_status` (`Status`), -- THÊM INDEX MỚI
   CONSTRAINT `contract_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `Users` (`UserId`) ON DELETE CASCADE,
   CONSTRAINT `contract_ibfk_2` FOREIGN KEY (`BookingId`) REFERENCES `Booking` (`BookingId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `ContractDocuments`
@@ -549,9 +551,9 @@ CREATE TABLE `UserFeedback` (
   KEY `BookingId` (`BookingId`),
   CONSTRAINT `userfeedback_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `Users` (`UserId`) ON DELETE CASCADE,
   CONSTRAINT `userfeedback_ibfk_2` FOREIGN KEY (`VehicleId`) REFERENCES `Vehicle` (`VehicleId`) ON DELETE SET NULL,
-  CONSTRAINT `userfeedback_ibfk_3` FOREIGN KEY (`BookingId`) REFERENCES `Booking` (`BookingId`)
+  CONSTRAINT `userfeedback_ibfk_3` FOREIGN KEY (`BookingId`) REFERENCES `Booking` (`BookingId`),
+  CONSTRAINT `CHK_Rating_Range` CHECK ((`Rating` BETWEEN 1 AND 5)) -- THÊM RÀNG BUỘC MỚI
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `UserLogins`
@@ -606,9 +608,9 @@ CREATE TABLE `Users` (
   UNIQUE KEY `Email` (`Email`),
   KEY `RoleId` (`RoleId`),
   KEY `idx_user_email` (`Email`),
+  KEY `idx_user_status` (`Status`), -- THÊM INDEX MỚI
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`RoleId`) REFERENCES `Roles` (`RoleId`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `UserVoucherUsage`
@@ -665,6 +667,7 @@ CREATE TABLE `Vehicle` (
   KEY `idx_vehicle_type` (`VehicleType`),
   KEY `idx_vehicle_license` (`RequiresLicense`),
   KEY `idx_license_plate` (`LicensePlate`),
+  KEY `idx_vehicle_status` (`Status`), -- THÊM INDEX MỚI
   CONSTRAINT `vehicle_ibfk_1` FOREIGN KEY (`BrandId`) REFERENCES `CarBrand` (`BrandId`),
   CONSTRAINT `vehicle_ibfk_2` FOREIGN KEY (`TransmissionTypeId`) REFERENCES `TransmissionType` (`TransmissionTypeId`),
   CONSTRAINT `vehicle_ibfk_3` FOREIGN KEY (`FuelTypeId`) REFERENCES `FuelType` (`FuelTypeId`),
@@ -672,7 +675,7 @@ CREATE TABLE `Vehicle` (
   CONSTRAINT `vehicle_ibfk_5` FOREIGN KEY (`CategoryId`) REFERENCES `VehicleCategories` (`CategoryId`),
   CONSTRAINT `CHK_VehicleType` CHECK ((`VehicleType` in (_utf8mb4'ElectricCar',_utf8mb4'Motorcycle',_utf8mb4'ElectricMotorcycle')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `VehicleCategories`
@@ -765,3 +768,6 @@ CREATE TABLE `VehicleImages` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2025-09-14  0:36:00
+
+CREATE INDEX idx_vehicle_rental_prices ON Vehicle(PricePerDay, PricePerHour, PricePerMonth);
+CREATE INDEX idx_booking_dates_status ON Booking(PickupDateTime, ReturnDateTime, Status);
