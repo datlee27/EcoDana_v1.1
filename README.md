@@ -43,12 +43,7 @@ git branch
 
 ## 3️⃣ Cập nhật code mới nhất từ GitHub (trước khi code)
 ```bash
-git pull origin <tên_nhánh_của_mình>
-```
-
-Ví dụ Ky:
-```bash
-git pull origin ky
+git pull origin main
 ```
 
 ---
